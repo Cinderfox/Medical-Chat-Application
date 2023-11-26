@@ -34,7 +34,9 @@ body {
 
 
 
-
+.back{
+    display: block;
+}
 .loader {
     position: relative;
     width: 100px;
@@ -706,6 +708,9 @@ h6, p {
     } 
 }
 @media only screen and (max-width: 671px) {
+    .back{
+        display: block;
+    }
     #chatting_box {
         width: 90%;
     }
