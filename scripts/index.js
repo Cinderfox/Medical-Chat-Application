@@ -370,9 +370,9 @@ function makeUsers(numInputs, Name, type) {
   uploadLabel.classList.add("upload");
   uploadLabel.setAttribute("for", `upload_${numInputs}`);
 
-  const uploadImg = document.createElement("img");
-  uploadImg.src = "/images/Clip_icon.png";
-  uploadImg.alt = "upload";
+  // const uploadImg = document.createElement("img");
+  // uploadImg.src = "/images/Clip_icon.png";
+  // uploadImg.alt = "upload";
 
   const fileInput = document.createElement("input");
   fileInput.type = "file";
@@ -401,7 +401,7 @@ function makeUsers(numInputs, Name, type) {
   sendImg.alt = "send";
 
   sendButton.appendChild(sendImg);
-  uploadLabel.appendChild(uploadImg);
+  // uploadLabel.appendChild(uploadImg);
   uploadLabel.appendChild(fileInput);
   newForm.appendChild(uploadLabel);
   newForm.appendChild(titleInput);
