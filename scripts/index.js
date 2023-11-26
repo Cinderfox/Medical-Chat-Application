@@ -24,7 +24,6 @@ function createNote(title, date, idnum) {
     // console.log(notesRef1)
     notesRef1.push(newNote1);
     addLocalStorageData(idnum, newNote1);
-    // displayNotes(idnum);
   }
   if (getUserType().type == "doctor") {
     let sender_Id2 = `doctor_${idnum}`;
@@ -34,7 +33,6 @@ function createNote(title, date, idnum) {
       .ref(`chats/doctor_${details.doctorId}_patient_${idnum}/message`);
     notesRef2.push(newNote2);
     addLocalStorageData(idnum, newNote2);
-    // displayNotes(idnum);
   }
 }
 function addLocalStorageData(idnum, newNotes) {
@@ -322,7 +320,7 @@ function makeUsers(numInputs, Name, type) {
   newUser.classList.add("ppl");
   newUser.onclick = function () {
     getUserSelectIdNum(this);
-    toggleBox(0);
+    toggleBox();
     getDataFromFirebase_updateLocalStorage(numInputs);
   };
 
@@ -464,8 +462,7 @@ for (var i = 0; i < ppl.length; i++) {
   });
 }
 
-function toggleBox(toggleCounter) {
-  // if (toggleCounter < 2) {
+function toggleBox() {
     const cards = document.getElementById("cards");
     const container_3 = document.getElementById("container_3");
     if (window.innerWidth < 671) {
@@ -478,10 +475,6 @@ function toggleBox(toggleCounter) {
           ? "less_width_container_3"
           : "more_width_container_3";
       console.log(container_3.className);
-
-    //   toggleCounter++;
-    //   toggleBox(toggleCounter);
-    // }
   }
 }
 
