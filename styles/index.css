@@ -34,8 +34,8 @@ body {
 
 
 
-.back{
-    display: block;
+.back {
+    display: none;
 }
 .loader {
     position: relative;
