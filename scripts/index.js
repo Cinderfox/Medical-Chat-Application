@@ -9,7 +9,6 @@ function FormSubmit(formElement, idnum) {
     }
     createNote(title.value, date, idnum);
     formElement.reset();
-    // getDataFromFirebase_updateLocalStorage(idnum);
   };
 }
 
@@ -62,17 +61,16 @@ function displayNotes(idnum) {
     console.log("data retrieved from localstorage");
   } else {
     console.log("no data in localstorage");
-    getDataFromFirebase_updateLocalStorage();
+    getDataFromFirebase_updateLocalStorage(idnum);
   }
 }
-function getDataFromFirebase_updateLocalStorage(fromWhere = undefined) {
+function getDataFromFirebase_updateLocalStorage(idnum, fromWhere = undefined) {
   let notesRef;
   if (getUserType().type == "patient") {
     notesRef = firebase
       .database()
       .ref(`chats/doctor_${idnum}_patient_${details.patientId}/message`);
   } else if (getUserType().type == "doctor") {
-    console.log("smth is really wrong", idnum);
     notesRef = firebase
       .database()
       .ref(`chats/doctor_${details.doctorId}_patient_${idnum}/message`);
@@ -186,7 +184,7 @@ function clickHandler(event) {
               const ul = document.getElementById(`ul${details.doctorId}`);
               const parent = ul.parentNode;
               const currentScrollPosition = parent.scrollTop;
-              getDataFromFirebase_updateLocalStorage("fromDelete");
+              getDataFromFirebase_updateLocalStorage(number, "fromDelete");
               parent.scrollTop = currentScrollPosition;
               const modal = document.querySelector(".modal");
               modal.remove();
@@ -218,7 +216,7 @@ function clickHandler(event) {
               const ul = document.getElementById(`ul${details.patientId}`);
               const parent = ul.parentNode;
               const currentScrollPosition = parent.scrollTop;
-              getDataFromFirebase_updateLocalStorage("fromDelete");
+              getDataFromFirebase_updateLocalStorage(number, "fromDelete");
               parent.scrollTop = currentScrollPosition;
               const modal = document.querySelector(".modal");
               modal.remove();
