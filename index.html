@@ -168,7 +168,8 @@
             <div id="radio_inputs">
             </div>
 
-            <div id="container_3">
+            <div id="container_3" class="more_width_container_3">
+            <!-- <div id="container_3"> -->
                 <div class="profile">
                     <div onclick="pfp_open()">
                         <div></div>
@@ -199,7 +200,7 @@
                 <div id="form_containers"></div>
             </div>
         </div>
-        <button onclick="toggleBox()" style="height: 20px;z-index: 9191911;">Back</button>
+        <button onclick="toggleBox(1)" style="height: 20px;z-index: 9191911;">Back</button>
     </div>
     <script src="/scripts/firebase_config.js"></script>
     <script src="/scripts/index.js"></script>
@@ -232,10 +233,10 @@
         async function fetchData() {
             try {
                 showLoader(true);
-                const response1 = await fetch('/Credentials');
+                const response1 = await fetch('http://localhost:3000/Credentials');
                 data1 = await response1.json()
 
-                const response2 = await fetch('/consultation');
+                const response2 = await fetch('http://localhost:3000/consultation');
                 data2 = await response2.json();
                 showLoader(false);
                 console.log(data1);
