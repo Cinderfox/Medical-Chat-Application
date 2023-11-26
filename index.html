@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HealthSync Chat</title>
+    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+
+        #login {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+        #login>h1 {
+            color: #3661ab;
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+            margin-left: 69px;
+        }
+
+        #login>div>label:nth-child(2) {
+            position: absolute;
+            left: -50%;
+        }
+
+
+        #login>div>input {
+            margin: 50px 70px 10px 70px;
+            color: rgba(0, 0, 0, .87);
+            border-bottom-color: rgba(0, 0, 0, .42);
+            font-size: 1rem;
+            padding: 10px 16px 6px;
+            /* width: 60%; */
+            transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            border-bottom: 1px solid;
+            border-radius: 4px 4px 0 0;
+            background: rgb(245, 245, 245);
+        }
+
+
+
+
+        #login>div>input:hover {
+            border-bottom-color: rgba(0, 0, 0, .87);
+            background: #ececec;
+        }
+
+        #login>div>input:focus {
+            border-bottom-color: #6200ee;
+        }
+
+        #login>button {
+            background-color: #257efe;
+            border: none;
+            width: 80%;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px;
+            font-size: 20px;
+            margin-top: 50px;
+            padding: 5px;
+            color: #fff7f7;
+            margin-bottom: 30px;
+            transition: all .5s;
+            cursor: pointer;
+        }
+
+        #login>button:hover {
+            background-color: #006aff;
+            transition: all .5s;
+        }
+
+        #login>button:active {
+            background-color: #4086e9;
+            transition: all .5s;
+        }
+
+        #logout {
+            background-color: transparent;
+            border: none;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: transform .5s;
+            cursor: pointer;
+        }
+
+        #logout:hover {
+            transform: translateX(-40%);
+            transition: transform .5s;
+        }
+
+        #doctorlabel {
+            position: absolute;
+            left: 10%;
+        }
+
+        #patientlabel {
+            position: relative;
+            left: 20%;
+        }
+
+        #doctor {
+            position: relative;
+            left: 20%;
+        }
+
+        #patient {
+            position: relative;
+            left: 0%;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <div id="login">
+        <h1>Welcome Back</h1>
+        <div>
+            <input type="text" id="user-number" placeholder="Enter Username"
+                style="width:80%; position: relative; left: -9%;">
+        </div>
+        <div>
+            <!-- <input type="password" id="user-pass" placeholder="Enter Password" style="width:80%; position: relative; left: -9%;"> -->
+            <input type="text" id="user-pass" placeholder="Enter Password"
+                style="width:80%; position: relative; left: -9%;">
+        </div>
+        <button onclick="fetchData()">Submit</button>
+    </div>
+
+    <div class="loader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+
+    <div id="app" style="display: none;">
+        <div id="chatting_box">
+            <div id="radio_inputs">
+            </div>
+
+            <div id="container_3">
+                <div class="profile">
+                    <div onclick="pfp_open()">
+                        <div></div>
+                        <span style="color: #000" id="Person_name"></span>
+                    </div>
+                    <button onclick="Logout()" id="logout"><img src="/images/logout.png" alt=""></button>
+                </div>
+                <div id="pfp" class="profile_closed">
+                    <div class="upper_pfp_area"></div>
+                    <span id="arrow_span0" class="arrow_span0" onclick="pfp_open()"><img src="/images/Arrow_icon.png"
+                            alt="Go back" id="arrow" class="old_arrow">
+                        <p>Back</p>
+                    </span>
+                    <div id="pfp_parent">
+                        <div id="pfp_zoom" class="pfp_zoom"></div>
+                    </div>
+                    <div id="details" class="details">
+                    </div>
+                </div>
+                <div id="user_select"></div>
+            </div>
+
+
+            <!-- <div id="cards" class="cards" onclick="toggleBox()"> -->
+            <div id="cards" class="cards">
+                <!-- <button onclick="toggleBox()">go back</button> -->
+                <div id="notes_side"></div>
+                <div id="form_containers"></div>
+            </div>
+        </div>
+        <button onclick="toggleBox()" style="height: 20px;z-index: 9191911;">Back</button>
+    </div>
+    <script src="/scripts/firebase_config.js"></script>
+    <script src="/scripts/index.js"></script>
+    <script>
+
+
+
+
+
+        let data1;
+        let data2;
+
+        async function fetchData() {
+            try {
+                showLoader(true);
+                const response1 = await fetch('http://localhost:3000/Credentials');
+                data1 = await response1.json()
+                
+                const response2 = await fetch('http://localhost:3000/consultation');
+                data2 = await response2.json();
+                showLoader(false);
+                console.log(data1);
+                // console.log(data2);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+
+        function md5(input) {
+            return CryptoJS.MD5(input).toString();
+        }
+
+        function showLoader(show) {
+            const loaderContainer = document.querySelector(".loader");
+            if (show) {
+                loaderContainer.style.display = 'block';
+            } else {
+                loaderContainer.style.display = 'none';
+                Login();
+            }
+        }
+
+
+        function addURLParameter(key, value) {
+            let currentURL = new URL(window.location.href);
+            currentURL.searchParams.set(key, value);
+            window.history.replaceState({}, '', currentURL.href);
+        }
+
+        function getURLParameter(key) {
+            let currentURL = new URL(window.location.href);
+            return currentURL.searchParams.get(key);
+        }
+
+
+        let userType;
+        let details;
+
+        function Login() {
+            details = getUserType();
+
+            var consultationDataString = data2.consultationData;
+            // var consultationData = JSON.parse(consultationDataString);
+            var consultationData = consultationDataString;
+
+            var patientDataString = data2.patientData;
+            // var patientData = JSON.parse(patientDataString);
+            var patientData = patientDataString;
+            var doctorPatients = {};
+            var patientDoctors = {};
+            // console.log(consultationData);
+
+
+
+            consultationData.forEach((item) => {
+                const doctorId = item.Doctor_id;
+                const patientId = item.Patient_id;
+                const doctorName = item.Name;
+                const patientName = item.Name;
+
+                if (!doctorPatients[doctorId]) {
+                    doctorPatients[doctorId] = [];
+                }
+                doctorPatients[doctorId].push({ Patient_id: patientId, Name: patientName });
+            });
+            patientData.forEach((item) => {
+                const doctorId = item.Doctor_id;
+                const patientId = item.Patient_id;
+                const doctorName = item.Name;
+                const patientName = item.Name;
+
+                if (!patientDoctors[patientId]) {
+                    patientDoctors[patientId] = [];
+                }
+                patientDoctors[patientId].push({ Doctor_id: doctorId, Name: doctorName });
+            });
+
+
+
+
+
+
+
+
+            if (details.type === 'doctor') {
+                let urlParam = btoa(details.name + "," + details.type + "," + details.doctorId);
+                addURLParameter("v=", urlParam);
+
+                let paramValue = getURLParameter('v=');
+                let compare = atob(paramValue).split(',');
+
+
+                if (compare[0] === details.name && compare[1] === details.type && compare[2] == details.doctorId) {
+                    document.getElementById('Person_name').innerHTML = details.name;
+                    document.getElementById('app').style.display = 'block';
+                    document.getElementById('login').style.display = 'none';
+
+                    for (var index in doctorPatients[details.doctorId]) {
+                        const val1 = doctorPatients[details.doctorId][index].Patient_id;
+                        const val2 = doctorPatients[details.doctorId][index].Name;
+                        // console.log(val1, val2, getUserType().type);
+                        makeUsers(val1, val2, getUserType().type);
+                    }
+                }
+            }
+
+
+            else if (details.type === 'patient') {
+                let urlParam = btoa(details.name + "," + details.type + "," + details.patientId);
+                addURLParameter("v=", urlParam);
+
+                let paramValue = getURLParameter('v=');
+                let compare = atob(paramValue).split(',');
+
+
+                if (compare[0] === details.name && compare[1] === details.type && compare[2] == details.patientId) {
+                    document.getElementById('Person_name').innerHTML = details.name;
+                    document.getElementById('app').style.display = 'block';
+                    document.getElementById('login').style.display = 'none';
+
+                    for (var index in patientDoctors[details.patientId]) {
+                        const val1 = patientDoctors[details.patientId][index].Doctor_id;
+                        const val2 = patientDoctors[details.patientId][index].Name;
+                        // console.log(patientDoctors);
+                        makeUsers(val1, val2, getUserType().type);
+                    }
+                }
+            }
+        }
+
+
+
+
+
+        function Logout() {
+            document.getElementById('app').style.display = 'none';
+            document.getElementById('login').style.display = 'block';
+            document.getElementById("user_select").innerHTML = '';
+            document.getElementById("notes_side").innerHTML = '';
+            document.getElementById("form_containers").innerHTML = '';
+            window.location.href = window.location.origin + window.location.pathname;
+        }
+
+
+        function getUserType() {
+            const doctorNumberUser = document.getElementById('user-number').value;
+            const doctorNumberPass = document.getElementById('user-pass').value;
+            for (const user of data1) {
+                console.log(user.Password, md5(doctorNumberPass))
+                if (user.Username === doctorNumberUser && user.Password === md5(doctorNumberPass)) {
+                    if (user.Type === "doctor") {
+                        return { type: user.Type, doctorId: user.Doctor_id, name: user.Username };
+                    }
+                    else if (user.Type === "patient") {
+                        return { type: user.Type, patientId: user.Patient_id, name: user.Username };
+                    }
+                    else {
+                        console.log("No such user exists")
+                    }
+                }
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>
