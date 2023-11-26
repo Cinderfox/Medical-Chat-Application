@@ -465,24 +465,30 @@ for (var i = 0; i < ppl.length; i++) {
 }
 
 function toggleBox(toggleCounter) {
-  if (toggleCounter < 2) {
+  // if (toggleCounter < 2) {
     const cards = document.getElementById("cards");
     const container_3 = document.getElementById("container_3");
     if (window.innerWidth < 671) {
       cards.className =
         cards.className === "cards more_width_cards"
-          ? "cards less_width_cards"
-          : "cards more_width_cards";
-      console.log(container_3.className);
+          ? "cards more_width_cards"
+          : "cards less_width_cards";
       container_3.className =
         container_3.className === "more_width_container_3"
           ? "less_width_container_3"
           : "more_width_container_3";
-      toggleCounter++;
-      toggleBox(toggleCounter);
-    }
+      console.log(container_3.className);
+
+    //   toggleCounter++;
+    //   toggleBox(toggleCounter);
+    // }
   }
 }
+
+// const container_3 = document.getElementById("container_3");
+// container_3.className = "less_width_container_3";
+
+
 
 // - doctors
 //   - doctor1
