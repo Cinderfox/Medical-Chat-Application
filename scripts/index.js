@@ -47,7 +47,7 @@ function addLocalStorageData(idnum, newNotes) {
   const updatedNotes = existingNotes.concat(newNotes);
   localStorage.setItem(localStorageKey, JSON.stringify(updatedNotes));
   console.log(updatedNotes);
-  
+
   displayNotes(idnum);
 }
 
@@ -130,8 +130,7 @@ function clickHandler(event) {
   const clickedElement = event.target;
   let number;
   if (clickedElement) {
-    if (
-      clickedElement.classList == "right_side-message") {
+    if (clickedElement.classList == "right_side-message") {
       const existingModals = document.querySelectorAll(".modal");
       existingModals.forEach((modal) => modal.remove());
 
@@ -323,7 +322,7 @@ function makeUsers(numInputs, Name, type) {
   newUser.classList.add("ppl");
   newUser.onclick = function () {
     getUserSelectIdNum(this);
-    toggleBox();
+    toggleBox(0);
     getDataFromFirebase_updateLocalStorage(numInputs);
   };
 
@@ -331,7 +330,7 @@ function makeUsers(numInputs, Name, type) {
   const newUserInnerSpan = document.createElement("span");
   newUser.appendChild(newUserInnerDiv);
   newUser.appendChild(newUserInnerSpan);
-  
+
   newUserInnerSpan.textContent = Name;
   user_select.appendChild(newUser);
 
@@ -465,19 +464,23 @@ for (var i = 0; i < ppl.length; i++) {
   });
 }
 
-function toggleBox() {
-  const cards = document.getElementById("cards");
-  const container_3 = document.getElementById("container_3");
-
-  if (window.innerWidth < 671) {
-    cards.className =
-      cards.className === "cards more_width_cards"
-        ? "cards less_width_cards"
-        : "cards more_width_cards";
-    container_3.className =
-      container_3.className === "more_width_container_3"
-        ? "less_width_container_3"
-        : "more_width_container_3";
+function toggleBox(toggleCounter) {
+  if (toggleCounter < 2) {
+    const cards = document.getElementById("cards");
+    const container_3 = document.getElementById("container_3");
+    if (window.innerWidth < 671) {
+      cards.className =
+        cards.className === "cards more_width_cards"
+          ? "cards less_width_cards"
+          : "cards more_width_cards";
+      console.log(container_3.className);
+      container_3.className =
+        container_3.className === "more_width_container_3"
+          ? "less_width_container_3"
+          : "more_width_container_3";
+      toggleCounter++;
+      toggleBox(toggleCounter);
+    }
   }
 }
 
