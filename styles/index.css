@@ -1,6 +1,6 @@
-/* html, body {
+html, body {
     overscroll-behavior-x: none;
-} */
+}
 
 * {box-sizing: border-box;}
 *:active {
