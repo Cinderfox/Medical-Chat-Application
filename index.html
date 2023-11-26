@@ -211,16 +211,18 @@
         async function fetchData() {
             try {
                 showLoader(true);
-                const response1 = await fetch('/Credentials');
+                const response1 = await fetch('http://localhost:3000/Credentials');
                 data1 = await response1.json()
-                
-                const response2 = await fetch('/consultation');
+
+                const response2 = await fetch('http://localhost:3000/consultation');
                 data2 = await response2.json();
                 showLoader(false);
                 console.log(data1);
                 // console.log(data2);
             } catch (error) {
                 console.error(error);
+                alert('Server connection timeout. Please try again later.');
+                showLoader(false);
             }
         }
 
@@ -256,98 +258,100 @@
         let details;
 
         function Login() {
-            details = getUserType();
+            try {
+                details = getUserType();
 
-            var consultationDataString = data2.consultationData;
-            // var consultationData = JSON.parse(consultationDataString);
-            var consultationData = consultationDataString;
+                var consultationDataString = data2.consultationData;
+                // var consultationData = JSON.parse(consultationDataString);
+                var consultationData = consultationDataString;
 
-            var patientDataString = data2.patientData;
-            // var patientData = JSON.parse(patientDataString);
-            var patientData = patientDataString;
-            var doctorPatients = {};
-            var patientDoctors = {};
-            // console.log(consultationData);
-
-
-
-            consultationData.forEach((item) => {
-                const doctorId = item.Doctor_id;
-                const patientId = item.Patient_id;
-                const doctorName = item.Name;
-                const patientName = item.Name;
-
-                if (!doctorPatients[doctorId]) {
-                    doctorPatients[doctorId] = [];
-                }
-                doctorPatients[doctorId].push({ Patient_id: patientId, Name: patientName });
-            });
-            patientData.forEach((item) => {
-                const doctorId = item.Doctor_id;
-                const patientId = item.Patient_id;
-                const doctorName = item.Name;
-                const patientName = item.Name;
-
-                if (!patientDoctors[patientId]) {
-                    patientDoctors[patientId] = [];
-                }
-                patientDoctors[patientId].push({ Doctor_id: doctorId, Name: doctorName });
-            });
+                var patientDataString = data2.patientData;
+                // var patientData = JSON.parse(patientDataString);
+                var patientData = patientDataString;
+                var doctorPatients = {};
+                var patientDoctors = {};
+                // console.log(consultationData);
 
 
 
+                consultationData.forEach((item) => {
+                    const doctorId = item.Doctor_id;
+                    const patientId = item.Patient_id;
+                    const doctorName = item.Name;
+                    const patientName = item.Name;
+
+                    if (!doctorPatients[doctorId]) {
+                        doctorPatients[doctorId] = [];
+                    }
+                    doctorPatients[doctorId].push({ Patient_id: patientId, Name: patientName });
+                });
+                patientData.forEach((item) => {
+                    const doctorId = item.Doctor_id;
+                    const patientId = item.Patient_id;
+                    const doctorName = item.Name;
+                    const patientName = item.Name;
+
+                    if (!patientDoctors[patientId]) {
+                        patientDoctors[patientId] = [];
+                    }
+                    patientDoctors[patientId].push({ Doctor_id: doctorId, Name: doctorName });
+                });
 
 
 
 
 
-            if (details.type === 'doctor') {
-                let urlParam = btoa(details.name + "," + details.type + "," + details.doctorId);
-                addURLParameter("v=", urlParam);
-
-                let paramValue = getURLParameter('v=');
-                let compare = atob(paramValue).split(',');
 
 
-                if (compare[0] === details.name && compare[1] === details.type && compare[2] == details.doctorId) {
-                    document.getElementById('Person_name').innerHTML = details.name;
-                    document.getElementById('app').style.display = 'block';
-                    document.getElementById('login').style.display = 'none';
 
-                    for (var index in doctorPatients[details.doctorId]) {
-                        const val1 = doctorPatients[details.doctorId][index].Patient_id;
-                        const val2 = doctorPatients[details.doctorId][index].Name;
-                        // console.log(val1, val2, getUserType().type);
-                        makeUsers(val1, val2, getUserType().type);
+                if (details.type === 'doctor') {
+                    let urlParam = btoa(details.name + "," + details.type + "," + details.doctorId);
+                    addURLParameter("v=", urlParam);
+
+                    let paramValue = getURLParameter('v=');
+                    let compare = atob(paramValue).split(',');
+
+
+                    if (compare[0] === details.name && compare[1] === details.type && compare[2] == details.doctorId) {
+                        document.getElementById('Person_name').innerHTML = details.name;
+                        document.getElementById('app').style.display = 'block';
+                        document.getElementById('login').style.display = 'none';
+
+                        for (var index in doctorPatients[details.doctorId]) {
+                            const val1 = doctorPatients[details.doctorId][index].Patient_id;
+                            const val2 = doctorPatients[details.doctorId][index].Name;
+                            // console.log(val1, val2, getUserType().type);
+                            makeUsers(val1, val2, getUserType().type);
+                        }
                     }
                 }
-            }
 
 
-            else if (details.type === 'patient') {
-                let urlParam = btoa(details.name + "," + details.type + "," + details.patientId);
-                addURLParameter("v=", urlParam);
+                else if (details.type === 'patient') {
+                    let urlParam = btoa(details.name + "," + details.type + "," + details.patientId);
+                    addURLParameter("v=", urlParam);
 
-                let paramValue = getURLParameter('v=');
-                let compare = atob(paramValue).split(',');
+                    let paramValue = getURLParameter('v=');
+                    let compare = atob(paramValue).split(',');
 
 
-                if (compare[0] === details.name && compare[1] === details.type && compare[2] == details.patientId) {
-                    document.getElementById('Person_name').innerHTML = details.name;
-                    document.getElementById('app').style.display = 'block';
-                    document.getElementById('login').style.display = 'none';
+                    if (compare[0] === details.name && compare[1] === details.type && compare[2] == details.patientId) {
+                        document.getElementById('Person_name').innerHTML = details.name;
+                        document.getElementById('app').style.display = 'block';
+                        document.getElementById('login').style.display = 'none';
 
-                    for (var index in patientDoctors[details.patientId]) {
-                        const val1 = patientDoctors[details.patientId][index].Doctor_id;
-                        const val2 = patientDoctors[details.patientId][index].Name;
-                        // console.log(patientDoctors);
-                        makeUsers(val1, val2, getUserType().type);
+                        for (var index in patientDoctors[details.patientId]) {
+                            const val1 = patientDoctors[details.patientId][index].Doctor_id;
+                            const val2 = patientDoctors[details.patientId][index].Name;
+                            // console.log(patientDoctors);
+                            makeUsers(val1, val2, getUserType().type);
+                        }
                     }
                 }
-            }
+
+
+            } catch (error) { }
         }
-
-
 
 
 
@@ -362,22 +366,24 @@
 
 
         function getUserType() {
-            const doctorNumberUser = document.getElementById('user-number').value;
-            const doctorNumberPass = document.getElementById('user-pass').value;
-            for (const user of data1) {
-                console.log(user.Password, md5(doctorNumberPass))
-                if (user.Username === doctorNumberUser && user.Password === md5(doctorNumberPass)) {
-                    if (user.Type === "doctor") {
-                        return { type: user.Type, doctorId: user.Doctor_id, name: user.Username };
-                    }
-                    else if (user.Type === "patient") {
-                        return { type: user.Type, patientId: user.Patient_id, name: user.Username };
-                    }
-                    else {
-                        console.log("No such user exists")
+            try {
+                const doctorNumberUser = document.getElementById('user-number').value;
+                const doctorNumberPass = document.getElementById('user-pass').value;
+                for (const user of data1) {
+                    console.log(user.Password, md5(doctorNumberPass))
+                    if (user.Username === doctorNumberUser && user.Password === md5(doctorNumberPass)) {
+                        if (user.Type === "doctor") {
+                            return { type: user.Type, doctorId: user.Doctor_id, name: user.Username };
+                        }
+                        else if (user.Type === "patient") {
+                            return { type: user.Type, patientId: user.Patient_id, name: user.Username };
+                        }
+                        else {
+                            console.log("No such user exists")
+                        }
                     }
                 }
-            }
+            } catch (error) { }
         }
 
 
