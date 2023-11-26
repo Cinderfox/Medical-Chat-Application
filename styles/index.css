@@ -560,7 +560,7 @@ h6, p {
     scale: 0;
 }
   
-.upload {
+/* .upload {
     min-width: 33px;
     width: 2vw;
     flex-basis: 5%;
@@ -575,7 +575,7 @@ h6, p {
     height: 2vw;
     width: 2vw;
     cursor: pointer;
-}
+} */
 
 [id*="send"] {
     position: relative;
@@ -583,7 +583,7 @@ h6, p {
     border: none;
     background-color: transparent;
     flex-basis: 5%;
-    margin: 10px 10px 10px 0;
+    margin: 10px 0 10px 0;
   }
   
 [id*="send"] > img {
