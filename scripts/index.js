@@ -16,18 +16,26 @@ function createNote(title, date, idnum) {
   if (getUserType().type == "patient") {
     let sender_Id1 = `patient_${idnum}`;
     const newNote1 = { title, date, time: Date.now(), sender_Id1 };
-    const notesRef1 = firebase.database().ref(`chats/doctor_${idnum}_patient_${details.patientId}/message`);
+    const notesRef1 = firebase
+      .database()
+      .ref(`chats/doctor_${idnum}_patient_${details.patientId}/message`);
     notesRef1.push(newNote1);
-    const notesRef3 = firebase.database().ref(`all-chats/doctor_${idnum}_patient_${details.patientId}/message`);
+    const notesRef3 = firebase
+      .database()
+      .ref(`all-chats/doctor_${idnum}_patient_${details.patientId}/message`);
     notesRef3.push(newNote1);
     addLocalStorageData(idnum, newNote1);
   }
   if (getUserType().type == "doctor") {
     let sender_Id2 = `doctor_${idnum}`;
     const newNote2 = { title, date, time: Date.now(), sender_Id2 };
-    const notesRef2 = firebase.database().ref(`chats/doctor_${details.doctorId}_patient_${idnum}/message`);
+    const notesRef2 = firebase
+      .database()
+      .ref(`chats/doctor_${details.doctorId}_patient_${idnum}/message`);
     notesRef2.push(newNote2);
-    const notesRef4 = firebase.database().ref(`all-chats/doctor_${details.doctorId}_patient_${idnum}/message`);
+    const notesRef4 = firebase
+      .database()
+      .ref(`all-chats/doctor_${details.doctorId}_patient_${idnum}/message`);
     notesRef4.push(newNote2);
     addLocalStorageData(idnum, newNote2);
   }
@@ -318,6 +326,7 @@ function makeUsers(numInputs, Name, type) {
   newUser.onclick = function () {
     getUserSelectIdNum(this);
     toggleBox();
+    chooseUser();
     getDataFromFirebase_updateLocalStorage(numInputs);
   };
 
@@ -448,15 +457,21 @@ window.addEventListener("resize", function () {
   resize();
 });
 
-var ppl = document.querySelectorAll("[id^='for-item-']");
-
-for (var i = 0; i < ppl.length; i++) {
-  ppl[i].addEventListener("click", function () {
-    for (var j = 0; j < ppl.length; j++) {
-      ppl[j].classList.remove("selected");
-    }
-    this.classList.add("selected");
-  });
+function chooseUser() {
+  var ppl = document.querySelectorAll("[id^='for-item-']");
+  const selectedChat = document.getElementById("radio_inputs");
+  const radioButtons = selectedChat.children;
+  console.log(radioButtons);
+  for (var i = 0; i < radioButtons.length; i++) {
+    if (radioButtons[i].checked) {
+      for (var j = 0; j < ppl.length; j++) {
+        console.log(ppl[j].classList);
+        ppl[j].classList.remove("selected");
+      }
+      console.log(i);
+      ppl[i].classList.add("selected");
+    };
+  }
 }
 
 function toggleBack() {
@@ -465,28 +480,26 @@ function toggleBack() {
   const back = document.getElementById("back");
   back.style.display = "none";
 }
-  function toggleBox() {
-    const cards = document.getElementById("cards");
-    const container_3 = document.getElementById("container_3");
-    const back = document.getElementById("back");
-    if (window.innerWidth < 671) {
-      cards.className =
-        cards.className === "cards more_width_cards"
-          ? "cards more_width_cards"
-          : "cards less_width_cards";
-      container_3.className =
-        container_3.className === "more_width_container_3"
-          ? "less_width_container_3"
-          : "more_width_container_3";
-          back.style.display = "block";
-      console.log(container_3.className);
+function toggleBox() {
+  const cards = document.getElementById("cards");
+  const container_3 = document.getElementById("container_3");
+  const back = document.getElementById("back");
+  if (window.innerWidth < 671) {
+    cards.className =
+      cards.className === "cards more_width_cards"
+        ? "cards more_width_cards"
+        : "cards less_width_cards";
+    container_3.className =
+      container_3.className === "more_width_container_3"
+        ? "less_width_container_3"
+        : "more_width_container_3";
+    back.style.display = "block";
+    console.log(container_3.className);
   }
 }
 
 // const container_3 = document.getElementById("container_3");
 // container_3.className = "less_width_container_3";
-
-
 
 // - doctors
 //   - doctor1
