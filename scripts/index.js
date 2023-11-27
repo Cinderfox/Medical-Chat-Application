@@ -462,9 +462,16 @@ for (var i = 0; i < ppl.length; i++) {
   });
 }
 
-function toggleBox() {
+function toggleBack() {
+  const container_3 = document.getElementById("container_3");
+  container_3.className = "more_width_container_3";
+  const back = document.getElementById("back");
+  back.style.display = "none";
+}
+  function toggleBox() {
     const cards = document.getElementById("cards");
     const container_3 = document.getElementById("container_3");
+    const back = document.getElementById("back");
     if (window.innerWidth < 671) {
       cards.className =
         cards.className === "cards more_width_cards"
@@ -474,6 +481,7 @@ function toggleBox() {
         container_3.className === "more_width_container_3"
           ? "less_width_container_3"
           : "more_width_container_3";
+          back.style.display = "block";
       console.log(container_3.className);
   }
 }
