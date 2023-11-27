@@ -16,21 +16,19 @@ function createNote(title, date, idnum) {
   if (getUserType().type == "patient") {
     let sender_Id1 = `patient_${idnum}`;
     const newNote1 = { title, date, time: Date.now(), sender_Id1 };
-    const notesRef1 = firebase
-      .database()
-      .ref(`chats/doctor_${idnum}_patient_${details.patientId}/message`);
-    // console.log("gge", details.patientId + 1);
-    // console.log(notesRef1)
+    const notesRef1 = firebase.database().ref(`chats/doctor_${idnum}_patient_${details.patientId}/message`);
     notesRef1.push(newNote1);
+    const notesRef3 = firebase.database().ref(`all-chats/doctor_${idnum}_patient_${details.patientId}/message`);
+    notesRef3.push(newNote1);
     addLocalStorageData(idnum, newNote1);
   }
   if (getUserType().type == "doctor") {
     let sender_Id2 = `doctor_${idnum}`;
     const newNote2 = { title, date, time: Date.now(), sender_Id2 };
-    const notesRef2 = firebase
-      .database()
-      .ref(`chats/doctor_${details.doctorId}_patient_${idnum}/message`);
+    const notesRef2 = firebase.database().ref(`chats/doctor_${details.doctorId}_patient_${idnum}/message`);
     notesRef2.push(newNote2);
+    const notesRef4 = firebase.database().ref(`all-chats/doctor_${details.doctorId}_patient_${idnum}/message`);
+    notesRef4.push(newNote2);
     addLocalStorageData(idnum, newNote2);
   }
 }
