@@ -279,7 +279,6 @@ ul{
     border-radius: 50%;
     cursor: pointer;
     background-image: url("/images/user.png");
-    /* background-image: url("/_9oZpRt23iu24_/Pics/1.jpeg"); */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 50%;
@@ -297,11 +296,9 @@ ul{
     transition: scale 0.2s;
 }
 .profile>div>span {
-    /* left: 30px; */
     color: #fff;
     font-size: 25px;
     cursor: pointer;
-    /* user-select: none; */
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .profile_closed {
@@ -313,20 +310,16 @@ ul{
     transition: width .3s;
     overflow: hidden;
     z-index: 100;
-    /* box-shadow: 1px 4px 10px 1px #05054e; */
 }
 .old_arrow, .arrow {
-    /* display: block; */
     height: 30px;
     width: 30px;
     position: relative;
     top: 108px;
     left: 30px;
-    /* transform: translateX(100%); */
     transition: all 0.6s;
 }
 .arrow {
-    /* display: block; */
     cursor: pointer;
     z-index: 99;
 }
@@ -382,7 +375,6 @@ ul{
 }
 
 
-/* [id*="pfp_parent_"] { */
 #pfp_parent {
     position: absolute;
     top: 30%;
@@ -559,23 +551,6 @@ h6, p {
     opacity: 0;
     scale: 0;
 }
-  
-/* .upload {
-    min-width: 33px;
-    width: 2vw;
-    flex-basis: 5%;
-    margin: 1vw 1vw 1vw 1vw;
-}
-  
-
-.upload > img {
-    position: absolute;
-    min-height: 33px;
-    min-width: 33px;
-    height: 2vw;
-    width: 2vw;
-    cursor: pointer;
-} */
 
 [id*="send"] {
     position: relative;
@@ -708,16 +683,12 @@ h6, p {
     } 
 }
 @media only screen and (max-width: 671px) {
-    #back{
-        display: block;
-    }
     #chatting_box {
         width: 90%;
     }
     #container_3 {
         width: 100%;
         z-index: 102;
-        /* display: none; */
     }
     .profile_open {
         transition: width .3s;
@@ -727,14 +698,12 @@ h6, p {
         width: 100%;
         position: absolute;
         z-index: 101;
-        /* display: none; */
     }
     .cards::before {
         width: 100%;
         background-size: 50%;
     }
     [id*="title"] {
-        /* height: 0%; */
         margin: 10px 8px;
         border-radius: 800px;
     }
