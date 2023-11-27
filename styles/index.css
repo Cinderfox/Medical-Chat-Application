@@ -240,10 +240,6 @@ ul{
 }
 
 
-.selected {
-    background: linear-gradient(135deg, #c2eaccac, #ffffff2d) !important;
-    background-color: #ff0000;
-  }
 .yui>.right_side-message:nth-child(n) {
     background-image: linear-gradient(135deg, #5079fe, #5079fe);
     color: #fff;
@@ -445,7 +441,11 @@ ul{
     
     
     
-    
+   
+.selected {
+    background: linear-gradient(135deg, #9890902d, #9890902d) !important;
+    background-color: #ff0000;
+} 
 .ppl {
     position: relative;
     background: linear-gradient(135deg, #e8e8ed, #e8e8ed);
