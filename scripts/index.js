@@ -13,7 +13,6 @@ function FormSubmit(formElement, idnum) {
 }
 
 function createNote(title, date, idnum) {
-  const localStorageKey = `notes_${idnum}`;
   if (getUserType().type == "patient") {
     let sender_Id1 = `patient_${idnum}`;
     const newNote1 = { title, date, time: Date.now(), sender_Id1 };
