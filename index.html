@@ -388,12 +388,16 @@
         }
 
 
+
         function getUserType() {
             try {
+                // const doctorNumberUser = document.getElementById('user-number').value;
                 const doctorNumberUser = document.getElementById('user-number').value;
                 const doctorNumberPass = document.getElementById('user-pass').value;
+                let userFound = false;
                 for (const user of data1) {
                     if (user.Username === doctorNumberUser && user.Password === md5(doctorNumberPass)) {
+                        // if (user.Username === lettersOnlyRegex && user.Password === md5(doctorNumberPass)) {
                         if (user.Type === "doctor") {
                             return { type: user.Type, doctorId: user.Doctor_id, name: user.Username };
                         }
@@ -401,11 +405,15 @@
                             return { type: user.Type, patientId: user.Patient_id, name: user.Username };
                         }
                         else {
-                            console.log("No such user exists")
+                            alert("No such user exists");
                         }
+                        let userFound = true;
                     }
                 }
-            } catch (error) {alert("")}
+                if (!userFound) {
+                    alert("You have entered an invalid username or password");
+                }
+            } catch (error) { }
         }
 
 

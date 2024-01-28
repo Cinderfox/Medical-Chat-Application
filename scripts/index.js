@@ -312,6 +312,10 @@ function updateClock() {
 const radioInputs = document.getElementById("radio_inputs");
 
 function makeUsers(numInputs, Name, type) {
+  if (numInputs == undefined || numInputs == null || numInputs == "") {
+    alert("No user to chat with.")
+    window.location.href = window.location.origin + window.location.pathname;
+  }
   document.addEventListener("click", clickHandler);
   const newInput = document.createElement("input");
   newInput.type = "radio";
@@ -497,43 +501,3 @@ function toggleBox() {
     console.log(container_3.className);
   }
 }
-
-// const container_3 = document.getElementById("container_3");
-// container_3.className = "less_width_container_3";
-
-// - doctors
-//   - doctor1
-//     - name: "Dr. John"
-//     - ...
-// - patients
-//   - patient1
-//     - name: "Alice"
-//     - doctorId: "doctor1"
-//     - ...
-//   - patient2
-//     - name: "Bob"
-//     - doctorId: "doctor1"
-//     - ...
-// - chats
-//   - doctor1_patient1
-//     - messages
-//       - messageId1
-//         - senderId: "patient1"
-//         - message: "Hello Doctor!"
-//         - timestamp: ...
-//       - messageId2
-//         - senderId: "doctor1"
-//         - message: "Hi Alice, how can I help you today?"
-//         - timestamp: ...
-//       - ...
-//   - doctor1_patient2
-//     - messages
-//       - messageId1
-//         - senderId: "patient2"
-//         - message: "Hi Doctor"
-//         - timestamp: ...
-//       - messageId2
-//         - senderId: "doctor1"
-//         - message: "Hello Bob, how are you feeling today?"
-//         - timestamp: ...
-//       - ...
